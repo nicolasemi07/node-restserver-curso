@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'dev'){
     urlDB = 'mongodb://localhost:27017/cafe';
 } else {
     // urlDB = 'mongodb+srv://nicolasemi:<password>@cluster0-8loyx.mongodb.net/cafe';
-    urlDB = 'mongodb+srv://nicolasemi:K9RbAPMwgv0agMV4@cluster0-8loyx.mongodb.net/cafe';
+    urlDB = process.env.MONGO_URI;
 }
 
 // Acá estamos INVENTANDO una variable de entorno
