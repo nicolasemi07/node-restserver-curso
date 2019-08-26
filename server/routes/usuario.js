@@ -3,6 +3,10 @@ const express = require('express');
 // "Usuario" arranca con mayúscula porque se van a crear objetos del tipo "Usuario"
 // (Igualmente esto es un estándar, pero no es obligatorio)
 const Usuario = require('../models/usuario');
+
+// Se importa el método del middleware
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+
 const app = express();
 
 const bcrypt = require('bcrypt');
@@ -10,7 +14,9 @@ const _ = require('underscore');
 
 // ##################################################
 
-app.get('/usuario', (req, res) => {
+
+// OBTIENE LA LISTA DE USUARIOS
+app.get('/usuario', verificaToken, (req, res) => {
 
     // en "res.query" vienen los PARAMETROS OPCIONALES (los que supongo que van a llegar)
     let desde = Number(req.query.desde) || 0;
@@ -39,7 +45,9 @@ app.get('/usuario', (req, res) => {
     });
 });
 
-app.post('/usuario', (req, res) => {
+
+// CREACION DE UN USUARIO
+app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let body = req.body;
 
@@ -69,7 +77,9 @@ app.post('/usuario', (req, res) => {
     });
 });
 
-app.put('/usuario/:id', (req, res) => {
+
+// ACTUALIZACION DE UN USUARIO
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let idUsuario = req.params.id;
 
     // Parámetros que SI se pueden actualizar (los que NO se pueden actualizar son "google" y "password")
@@ -91,7 +101,9 @@ app.put('/usuario/:id', (req, res) => {
     });
 });
 
-app.delete('/usuario/:id', (req, res) => {
+
+// ELIMINACION DE UN USUARIO
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
 
