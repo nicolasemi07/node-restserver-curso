@@ -18,7 +18,7 @@ app.use(require('./routes/index'));
 // Habilitar carpeta "public" para presentar página web
 app.use(express.static(path.resolve(__dirname, '../public')));
 
-mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }, (err, res) => {
     if (err) throw err;
 
     console.log('Base de datos ONLINE');

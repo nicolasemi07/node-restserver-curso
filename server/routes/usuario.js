@@ -35,13 +35,13 @@ app.get('/usuario', verificaToken, (req, res) => {
 
         // Cuenta la cantidad de registros totales de la coleccion (sin hacer ninguna condición)
         // (Un ejemplo de condición es "count({ google: true },....")
-        Usuario.count({ estado: true }, (err, conteo) => {
+        Usuario.countDocuments({ estado: true }, (err, conteo) => {
             res.json({
                 ok: true,
                 usuarios,
                 'cantidad de registros': conteo
             });
-        });
+        }).skip(desde).limit(limite);
     });
 });
 
